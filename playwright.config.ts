@@ -27,7 +27,7 @@ export default defineConfig({
         baseURL: process.env.baseUrl,
 
         /* Headless mode */
-        headless: !process.env.CI,
+        headless: true,
 
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: 'on-first-retry',
