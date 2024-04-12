@@ -27,7 +27,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CI: true
-      baseUrl: ${{ env.baseUrl }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -40,6 +39,8 @@ jobs:
 
       - name: Run tests in Docker container
         run: docker run pw-tests-image
+        env:
+          baseUrl: ${{ env.baseUrl }}
 
       - name: Generate Allure report
         run: docker run --rm -v "$(pwd)/allure-results:/app/allure-results" pw-tests-image npm run allure:generate
