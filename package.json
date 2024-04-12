@@ -1,0 +1,23 @@
+{
+  "name": "society.ton.org-playwright-tests",
+  "version": "1.0.0",
+  "description": "ui autotests for society.ton.org with playwright",
+  "main": "index.js",
+  "scripts": {
+    "allure:generate": "npx allure generate ./allure-results --clean",
+    "allure:serve": "npx allure serve",
+    "test": "npx playwright test && npm run allure:generate"
+  },
+  "author": "nimestel",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.40.1",
+    "@types/node": "^20.10.5",
+    "prettier": "^3.1.1",
+    "allure-commandline": "^2.25.0"
+  },
+  "dependencies": {
+    "allure-playwright": "^2.10.0",
+    "dotenv": "^16.3.1"
+  }
+}
