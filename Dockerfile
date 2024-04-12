@@ -4,6 +4,6 @@ WORKDIR /app
 COPY tests/ui/package.json tests/ui/package-lock.json /app/
 RUN npm install
 
-COPY tests/ui/ /app/
+COPY . /app/
 
 CMD ["npm", "run", "test", "&&", "cp", "-r", "allure-results", "/app/allure-results"]
