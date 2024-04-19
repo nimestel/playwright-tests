@@ -1,4 +1,0 @@
-Set cookies to accepted
-Going to Activities Page by URL: /activities/events
-Checking that Activities Page has expected url
-Checking that Activities Page has expected elements on page:

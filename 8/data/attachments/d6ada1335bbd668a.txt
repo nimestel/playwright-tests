@@ -1,4 +1,0 @@
-Set cookies to accepted
-Going to MainPage by URL: /
-Checking that MainPage has expected url
-Checking that MainPage has expected elements on page:
