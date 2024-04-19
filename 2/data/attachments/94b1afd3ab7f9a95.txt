@@ -1,0 +1,4 @@
+Set cookies to accepted
+Going to ContributorsPage by URL: /contributors
+Checking that ContributorsPage has expected url
+Checking that ContributorsPage has expected elements on page:

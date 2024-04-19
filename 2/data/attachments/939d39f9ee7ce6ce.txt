@@ -1,0 +1,2 @@
+Set cookies to accepted
+Going to Activities Page by URL: /activities/events
