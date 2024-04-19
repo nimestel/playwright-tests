@@ -69,7 +69,9 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: allure-report/allure-history
+          destination_dir: allure-report
           publish_branch: gh-pages
+          keep_files: true
 
       - name: Print the link to the report
         if: always()
