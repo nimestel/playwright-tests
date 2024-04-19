@@ -78,5 +78,4 @@ jobs:
           authToken: ${{secrets.GITHUB_TOKEN}}
           context: 'Test report'
           state: 'success'
-          sha: ${{ github.event.pull_request.head.sha }}
           target_url: https://nimestel.github.io/playwright-example-tests/${{ github.run_number }}
