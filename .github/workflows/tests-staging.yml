@@ -6,9 +6,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-health:
+  tests-stage:
     uses: ./.github/workflows/new.yml
     secrets: inherit
+    permissions:
+      contents: write
     with:
       env_name: staging
       baseUrl: https://stg.globalsociety.xyz

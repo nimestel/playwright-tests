@@ -8,9 +8,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-health:
+  tests-prod:
     uses: ./.github/workflows/new.yml
     secrets: inherit
+    permissions:
+      contents: write
     with:
       env_name: production
       baseUrl: https://society.ton.org
