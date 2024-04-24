@@ -1,0 +1,14 @@
+name: Production frontend e2e tests
+
+on:
+  push:
+    branches: [ staging ]
+  workflow_dispatch:
+
+jobs:
+  check-health:
+    uses: ./.github/workflows/new.yml
+    secrets: inherit
+    with:
+      env_name: staging
+      baseUrl: https://stg.globalsociety.xyz

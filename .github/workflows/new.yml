@@ -1,25 +1,16 @@
-name: without allure report
+name: common e2e test run config
 
 on:
-  push:
-    branches: [ main ]
-
-  schedule:
-     #- cron: "*/30 * * * *" # every 30 minutes
-     - cron: "0 0 * * *" # every night
-  workflow_dispatch:
+  workflow_call:
     inputs:
-      baseUrl:
-        description: 'Base url for run'
-        type: choice
+      env_name:
+        type: string
         required: true
-        default: 'https://society.ton.org'
-        options:
-          - 'https://society.ton.org'
-          - 'https://stg.globalsociety.xyz'
-
-env:
-  baseUrl: ${{ github.event.inputs.baseUrl == '' && 'https://society.ton.org' || github.event.inputs.baseUrl }}
+      baseUrl:
+        description: 'app url for test run'
+        type: string
+        required: true
+    secrets: {}
 
 jobs:
   test:
@@ -38,7 +29,7 @@ jobs:
         run: docker run --rm -v "${{ github.workspace }}/allure-results:/app/allure-results" -v "${{ github.workspace }}/playwright-report:/app/playwright-report" pw-tests-image
         env:
           CI: true
-          baseUrl: ${{ env.baseUrl }}
+          baseUrl: ${{ inputs.baseUrl }}
 
       - name: Upload allure report artifacts
         uses: actions/upload-artifact@v3
@@ -55,3 +46,15 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 2
+
+      - name: Send TG notification when test run fails
+        if: failure()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_E2E_ALERTS_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: html
+          message: |
+            <b>${{ inputs.env_name }}</b> ton-society tests fails
+
+            See details at ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}

@@ -1,0 +1,16 @@
+name: Production frontend e2e tests
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: "*/60 * * * *" # every 1 hour
+  workflow_dispatch:
+
+jobs:
+  check-health:
+    uses: ./.github/workflows/new.yml
+    secrets: inherit
+    with:
+      env_name: production
+      baseUrl: https://society.ton.org
