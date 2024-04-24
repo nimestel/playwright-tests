@@ -35,7 +35,7 @@ jobs:
         run: docker build -t pw-tests-image .
 
       - name: Run Playwright tests in Docker container
-        run: docker run --rm -v "${{ github.workspace }}/allure-results:/app/allure-results" pw-tests-image
+        run: docker run --rm -v "${{ github.workspace }}/allure-results:/app/allure-results" -v "${{ github.workspace }}/playwright-report:/app/playwright-report" pw-tests-image
         env:
           CI: true
           baseUrl: ${{ env.baseUrl }}
