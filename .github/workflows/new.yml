@@ -61,7 +61,7 @@ jobs:
           # Extracting artifact_id from the response
           artifact_id=$(echo $response | jq -r '.artifacts[] | select(.name == "playwright-report").id')
 
-          echo "::set-output name=artifact_id::$artifact_id"
+          echo "artifact_id=$artifact_id"
 
       - name: Send TG notification when test run fails
         if: failure()
