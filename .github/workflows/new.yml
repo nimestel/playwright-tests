@@ -57,10 +57,12 @@ jobs:
           response=$(curl -s -X GET \
             -H "Authorization: Bearer $token" \
             "https://api.github.com/repos/$repository/actions/runs/$run_id/artifacts")
-
+    
+          echo "Response: $response"  # debug
+      
           # Extracting artifact_id from the response
           artifact_id=$(echo $response | jq -r '.artifacts[] | select(.name == "playwright-report").id')
-
+          
           echo "artifact_id=$artifact_id"
 
       - name: Send TG notification when test run fails
