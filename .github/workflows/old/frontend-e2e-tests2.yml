@@ -1,14 +1,14 @@
 name: Frontend e2e tests2
 
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, staging ]
-
-  schedule:
-     #- cron: "*/30 * * * *" # every 30 minutes
-     - cron: "0 0 * * *" # every night
+#  push:
+#    branches: [ main, master ]
+#  pull_request:
+#    branches: [ main, staging ]
+#
+#  schedule:
+#     #- cron: "*/30 * * * *" # every 30 minutes
+#     - cron: "0 0 * * *" # every night
   workflow_dispatch:
     inputs:
       baseUrl:
