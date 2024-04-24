@@ -48,6 +48,7 @@ jobs:
           retention-days: 2
 
       - name: Waiting for artifacts generating
+        if: always()
         run: sleep 30
 
       - name: Get Report ID
