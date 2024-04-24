@@ -49,6 +49,7 @@ jobs:
 
       - name: Get Report ID
         id: get_report_id
+        if: always()
         run: |
           token="${{ secrets.GITHUB_TOKEN }}"
           run_id="${{ github.run_id }}"
