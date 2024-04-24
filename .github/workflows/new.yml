@@ -1,0 +1,48 @@
+name: without allure report
+
+on:
+  push:
+    branches: [ main ]
+
+  schedule:
+     #- cron: "*/30 * * * *" # every 30 minutes
+     - cron: "0 0 * * *" # every night
+  workflow_dispatch:
+    inputs:
+      baseUrl:
+        description: 'Base url for run'
+        type: choice
+        required: true
+        default: 'https://society.ton.org'
+        options:
+          - 'https://society.ton.org'
+          - 'https://stg.globalsociety.xyz'
+
+env:
+  baseUrl: ${{ github.event.inputs.baseUrl == '' && 'https://society.ton.org' || github.event.inputs.baseUrl }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t pw-tests-image .
+
+      - name: Run Playwright tests in Docker container
+        run: docker run --rm -v "${{ github.workspace }}/allure-results:/app/allure-results" pw-tests-image
+        env:
+          CI: true
+          baseUrl: ${{ env.baseUrl }}
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: allure-results
+          path: allure-results
+          retention-days: 3
