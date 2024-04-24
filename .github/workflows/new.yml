@@ -53,8 +53,9 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_E2E_ALERTS_ID }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          format: html
+          format: markdown
           message: |
-            <b>${{ inputs.env_name }}</b> ton-society tests fails
+            **${{ inputs.env_name }}: ton-society tests fails **
 
-            See details at ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
+            See details in [job](${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}})
+            Test report: [Playwright report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/playwright-report)
