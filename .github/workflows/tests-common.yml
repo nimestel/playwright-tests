@@ -35,13 +35,13 @@ jobs:
         env:
           CI: true
 
-      - name: Upload allure report artifacts
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: allure-results
-          path: allure-results
-          retention-days: 3
+#      - name: Upload allure report artifacts
+#        uses: actions/upload-artifact@v3
+#        if: always()
+#        with:
+#          name: allure-results
+#          path: allure-results
+#          retention-days: 3
 
       - name: Upload playwright report artifacts
         uses: actions/upload-artifact@v3
