@@ -1,4 +1,4 @@
-name: Production frontend e2e tests
+name:  Staging frontend e2e tests
 
 on:
   push:
