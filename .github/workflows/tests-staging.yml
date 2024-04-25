@@ -7,7 +7,7 @@ on:
 
 jobs:
   tests-stage:
-    uses: ./.github/workflows/new.yml
+    uses: ./.github/workflows/tests-common.yml
     secrets: inherit
     permissions:
       contents: write

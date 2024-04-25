@@ -25,22 +25,23 @@ jobs:
       - name: Build Docker image
         run: docker build -t pw-tests-image .
 
-      - name: Print env
-        run: echo "${{ inputs.baseUrl }}"
-
       - name: Run Playwright tests in Docker container
-        run: docker run --rm -v "${{ github.workspace }}/allure-results:/app/allure-results" -v "${{ github.workspace }}/playwright-report:/app/playwright-report" pw-tests-image
+        run: |
+         docker run --rm \
+         -e BASE_URL="${{ inputs.baseUrl }}" \
+         -v "/home/runner/work/playwright-example-tests/playwright-example-tests/allure-results:/app/allure-results" \
+         -v "/home/runner/work/playwright-example-tests/playwright-example-tests/playwright-report:/app/playwright-report" \
+         pw-tests-image
         env:
           CI: true
-          baseUrl: ${{ inputs.baseUrl }}
 
-      - name: Upload allure report artifacts
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: allure-results
-          path: allure-results
-          retention-days: 3
+#      - name: Upload allure report artifacts
+#        uses: actions/upload-artifact@v3
+#        if: always()
+#        with:
+#          name: allure-results
+#          path: allure-results
+#          retention-days: 3
 
       - name: Upload playwright report artifacts
         uses: actions/upload-artifact@v3
