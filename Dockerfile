@@ -7,4 +7,4 @@ RUN npx playwright install --with-deps
 ENV CI=true
 
 COPY . /app/
-CMD ["sh", "-c", "echo BASE_URL is $BASE_URL"]
+CMD ["npm test && cp -r allure-results /app/allure-results"]
