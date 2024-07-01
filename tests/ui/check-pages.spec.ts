@@ -1,9 +1,9 @@
-import { step, test } from '../utils/fixtures/base-test';
-import { IPage } from '../support/pages/BasePage';
-import { ContributorsPage } from '../support/pages/ton/ContributorsPage';
-import { MainPage } from '../support/pages/ton/MainPage';
-import { ActivitiesPage } from '../support/pages/ton/ActivitiesPage';
-import routes from '../utils/helpers/routes';
+import { step, test } from '../../utils/fixtures/base-test';
+import { IPage } from '../../support/pages/BasePage';
+import { ContributorsPage } from '../../support/pages/ton/ContributorsPage';
+import { MainPage } from '../../support/pages/ton/MainPage';
+import { ActivitiesPage } from '../../support/pages/ton/ActivitiesPage';
+import routes from '../../utils/helpers/routes';
 
 let thisPage: IPage;
 const pages = [ContributorsPage, MainPage, ActivitiesPage];

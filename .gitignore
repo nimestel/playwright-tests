@@ -1,4 +1,4 @@
-node_modules/
+../../node_modules/
 /test-results/
 /playwright-report/
 /blob-report/
@@ -6,3 +6,4 @@ node_modules/
 /allure-results/
 /allure-report/
 .idea
+/node_modules/
