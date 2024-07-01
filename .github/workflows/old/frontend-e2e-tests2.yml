@@ -1,29 +1,13 @@
-name: Frontend e2e tests2
+name: Run e2e tests
 
 on:
-#  push:
-#    branches: [ main, master ]
-#  pull_request:
-#    branches: [ main, staging ]
-#
-#  schedule:
-#     #- cron: "*/30 * * * *" # every 30 minutes
-#     - cron: "0 0 * * *" # every night
+  # schedule:
+  #   - cron: "0 8-20/2 * * *" # every 2 hours / working hours
   workflow_dispatch:
-    inputs:
-      baseUrl:
-        description: 'Base url for run'
-        required: true
-        default: 'https://society.ton.org'
-        options:
-          - 'https://society.ton.org'
-          - 'https://stg.globalsociety.xyz'
-
-env:
-  baseUrl: ${{ github.event.inputs.baseUrl == '' && 'https://society.ton.org' || github.event.inputs.baseUrl }}
 
 jobs:
-  test:
+  run-e2e-tests:
+    environment: ${{ github.ref_name || 'main' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -33,55 +17,42 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build Docker image
-        run: docker build -t pw-tests-image .
+        run: docker build -t pw-tests-image -f tests/ui/Dockerfile .
 
       - name: Run Playwright tests in Docker container
-        run: docker run --rm -v "${{ github.workspace }}/allure-results:/app/allure-results" pw-tests-image
+        run: |
+          docker run --rm \
+          -e BASE_URL="${{ vars.APP_BASE_URL }}" \
+          -v "/home/runner/work/playwright-example-tests/playwright-example-tests/allure-results:/app/allure-results" \
+          -v "/home/runner/work/playwright-example-tests/playwright-example-tests/playwright-report:/app/playwright-report" \
+          pw-tests-image
+        env:
+          CI: true
 
-      - uses: actions/upload-artifact@master
-        with:
-          name: allure-results
-          path: allure-results
-          retention-days: 1
+      #      - name: Upload allure report artifacts
+      #        uses: actions/upload-artifact@v3
+      #        if: always()
+      #        with:
+      #          name: allure-results
+      #          path: allure-results
+      #          retention-days: 3
 
-      - name: Get Allure history
-        uses: actions/checkout@v3
+      - name: Upload playwright report artifacts
+        uses: actions/upload-artifact@v3
         if: always()
-        continue-on-error: true
         with:
-          ref: gh-pages
-          path: gh-pages/allure-report
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 3
 
-      - name: Generate allure
-        uses: simple-elf/allure-report-action@master
-        if: always()
-        id: allure-report
+      - name: Send TG notification when test run fails
+        if: failure()
+        uses: appleboy/telegram-action@master
         with:
-          allure_results: allure-results
-          gh_pages: gh-pages/allure-report
-          allure_report: allure-report
-          allure_history: allure-history
-          keep_reports: 1
+          to: ${{ secrets.TELEGRAM_E2E_ALERTS_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          message: |
+            **${{ github.ref_name || 'main' }}: ton-society tests failed **
 
-      - name: Deploy report to Github Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: allure-report/allure-history
-          destination_dir: allure-report
-          publish_branch: gh-pages
-          keep_files: true
-
-      - name: Print the link to the report
-        if: always()
-        run: echo "https://nimestel.github.io/playwright-example-tests/${{ github.run_number }}"
-
-      - name: Post the link to the report
-        if: always()
-        uses: Sibz/github-status-action@v1
-        with:
-          authToken: ${{secrets.GITHUB_TOKEN}}
-          context: 'Test report'
-          state: 'success'
-          target_url: https://nimestel.github.io/playwright-example-tests/${{ github.run_number }}
+            See details and report in [job](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)
