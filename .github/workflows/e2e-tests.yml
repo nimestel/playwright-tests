@@ -18,6 +18,9 @@ jobs:
       - name: Build Docker image
         run: docker build -t pw-tests-image -f tests/ui/Dockerfile .
 
+      - name: Debug BASE_URL
+        run: echo "BASE_URL=${{ vars.APP_BASE_URL }}"
+
       - name: Run Desktop Playwright tests
         run: |
           docker run --rm \

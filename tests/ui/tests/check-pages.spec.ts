@@ -15,6 +15,8 @@ test.describe(`Check pages and elements`, () => {
             test('check url and elements', async ({ page }, testInfo) => {
                 thisPage = new currentPage(page);
 
+                console.log('process env baseURL:', process.env.BASE_URL);
+
                 await thisPage.goto();
 
                 await thisPage.checkUrl();
