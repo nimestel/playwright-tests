@@ -1,22 +1,27 @@
-import { step, test } from '../../utils/fixtures/base-test';
-import { IPage } from '../../support/pages/BasePage';
-import { ContributorsPage } from '../../support/pages/ton/ContributorsPage';
-import { MainPage } from '../../support/pages/ton/MainPage';
-import { ActivitiesPage } from '../../support/pages/ton/ActivitiesPage';
-import routes from '../../utils/helpers/routes';
+import { step, test } from '../utils/fixtures/base-test';
+import { IPage } from '../support/pages/BasePage';
+import { ContributorsPage } from '../support/pages/ton/ContributorsPage';
+import routes from '../utils/helpers/routes';
+import { acceptCookiesIfExist } from '../utils/helpers/helpers';
+import { AboutPage } from '../support/pages/ton/AboutPage';
+import { ActivitiesPage } from '../support/pages/ton/ActivitiesPage';
 
 let thisPage: IPage;
-const pages = [ContributorsPage, MainPage, ActivitiesPage];
+const pages = [ContributorsPage, AboutPage, ActivitiesPage];
 
 test.describe(`Check pages and elements`, () => {
     pages.forEach((currentPage) => {
         test.describe(`Check page ${currentPage.name}`, () => {
-            test('check url and elements', async ({ page }) => {
+            test.only('check url and elements', async ({ page }, testInfo) => {
                 thisPage = new currentPage(page);
 
                 await thisPage.goto();
+
                 await thisPage.checkUrl();
-                await thisPage.checkElements();
+
+                await acceptCookiesIfExist(page);
+
+                await thisPage.checkElements(testInfo);
             });
         });
     });

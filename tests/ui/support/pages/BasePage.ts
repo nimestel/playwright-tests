@@ -4,6 +4,11 @@ import { step } from '../../utils/fixtures/base-test';
 import { splitStringByCapitalLetters } from '../../utils/helpers/helpers';
 import { BaseComponent } from '../components/BaseComponent';
 
+export type TestInfo = {
+    project: any;
+    title: any;
+};
+
 export type IPage = {
     name?: string;
     url: string;
@@ -12,7 +17,7 @@ export type IPage = {
 
     goto(): Promise<void>;
     checkUrl(): Promise<void>;
-    checkElements(): Promise<void>;
+    checkElements(testInfo?: TestInfo): Promise<void>;
 };
 
 export type PageObjectProps = {
@@ -26,6 +31,7 @@ export abstract class BasePage implements IPage {
     url: string;
     page: Page;
     crucialElements: Array<BaseComponent> = [];
+    mobileElements: Array<BaseComponent> = [];
 
     protected constructor({ name, url, page }: PageObjectProps) {
         this.name = name ? name : this.convertPageNameToString();
@@ -51,15 +57,33 @@ export abstract class BasePage implements IPage {
         });
     }
 
-    async checkElements() {
+    async checkElements(testInfo?: TestInfo): Promise<void> {
         await step(
             `Checking that ${this.name} has expected elements on page:`,
             async () => {
-                if (this.crucialElements.length === 0)
-                    console.log(`No crucial elements are declared on ${this.name}`);
+                let checkedElements;
 
-                for (const element of this.crucialElements) {
-                    await element.anyMemberShouldBeVisible();
+                // if test parametrized
+                if (testInfo) {
+                    // if current project = mobile
+                    if (testInfo.project.name.includes('Mobile')) {
+                        // if mobileElements declared in page
+                        checkedElements =
+                            this.mobileElements.length === 0
+                                ? this.crucialElements
+                                : this.mobileElements;
+                    } else {
+                        checkedElements = this.crucialElements;
+                    }
+                } else {
+                    checkedElements = this.crucialElements;
+                }
+
+                if (checkedElements.length === 0)
+                    throw new Error(`No crucial elements are declared on ${this.name}`);
+
+                for (const element of checkedElements) {
+                    await element.checkElementsOfComponentVisible();
                 }
             }
         );

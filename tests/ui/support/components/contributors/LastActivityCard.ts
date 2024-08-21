@@ -12,17 +12,17 @@ export type LastActivityCardContent = {
 };
 
 const selectors = {
-    body: '[class^="styles_lastActivityList"] [class*="userCradWrapper"]',
-    avatar: '[class^="styles_lastActivityList"] [class*="userCradWrapper"] img[class*="styles_avatar"]',
-    fullname:
-        '[class^="styles_lastActivityList"] [class*="userCradWrapper"] [class*="styles_headline"]',
-    time: '[class^="styles_lastActivityList"] [class*="userCradWrapper"] [class*="styles_caption"]',
-    description: '[class^="styles_lastActivityList"] [class*="styles_regular"]',
-    activity: '[class^="styles_lastActivityList"] [class*="styles_regular"] a'
+    body: '[class*="userCradWrapper"]',
+    avatar: 'img[class*="styles_avatar"]',
+    fullname: '[class*="styles_headline"]',
+    time: '[class*="styles_caption"]',
+    description: '[class*="styles_regular"]',
+    activity: '[class*="styles_regular"] a'
 };
 
 export class LastActivityCard extends BaseComponent {
     public static body = selectors.body;
+    public selectors = selectors;
 
     public avatar = new Image({
         locator: this.locator.locator(selectors.avatar)

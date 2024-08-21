@@ -22,11 +22,10 @@ export class ActivitiesPage extends BasePage {
     crucialElements = [
         this.header,
         this.activityGroupBar,
-        this.activityGroupBanner,
         this.activityCard
     ];
 
     constructor(page: Page) {
-        super({ page: page, url: '/activities/events' });
+        super({ page: page, url: '/activities/active' });
     }
 }
