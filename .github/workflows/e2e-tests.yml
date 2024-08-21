@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-e2e-tests:
+  run-desktop-tests:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -14,10 +14,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Print GITHUB_WORKSPACE
-        run: |
-          echo "GITHUB_WORKSPACE is set to:  $GITHUB_WORKSPACE"
 
       - name: Build Docker image
         run: docker build -t pw-tests-image -f tests/ui/Dockerfile .
@@ -40,13 +36,38 @@ jobs:
           path: playwright-report-desktop/
           retention-days: 3
 
+      - name: Send TG notification when test run fails
+        if: failure()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_E2E_ALERTS_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          message: |
+            **${{ github.ref_name || 'main' }}: desktop ton-society tests failed **
+            
+            See details and report in [job](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)
+            
+
+  run-mobile-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t pw-tests-image -f tests/ui/Dockerfile .
+
       - name: Run Mobile Playwright tests
         run: |
           docker run --rm \
           -e BASE_URL="${{ vars.APP_BASE_URL }}" \
           -v "$GITHUB_WORKSPACE/allure-results:/app/allure-results" \
           -v "$GITHUB_WORKSPACE/playwright-report-mobile:/app/playwright-report" \
-          pw-tests-image npm run test -- --project="Mobile Chrome" --project="Mobile Safari"
+          pw-tests-image npm run test -- --project="Mobile Chrome" -- --project="Mobile Safari"
         env:
           CI: true
 
@@ -66,6 +87,6 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
           message: |
-            **${{ github.ref_name || 'main' }}: ton-society tests failed **
+            **${{ github.ref_name || 'main' }}: mobile ton-society tests failed **
 
             See details and report in [job](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)
