@@ -1,15 +1,16 @@
 import { ListOfCards } from '../ListOfCards';
 import { LastActivityCard } from './LastActivityCard';
 
-const LastActivitiesListSelectors = {
+const selectors = {
     body: '[class^="styles_lastActivityList"]',
-    activityCard: '[class^="styles_lastActivityList"] [class*="userCradWrapper"]'
+    activityCard: '[class*="userCradWrapper"]'
 };
 
 export class LastActivitiesList extends ListOfCards {
-    public static body = LastActivitiesListSelectors.body;
+    public static body = selectors.body;
+    public selectors = selectors;
 
     public activityCard = new LastActivityCard({
-        locator: this.locator.locator(LastActivitiesListSelectors.activityCard)
+        locator: this.locator.locator(LastActivityCard.body)
     });
 }

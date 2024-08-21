@@ -5,16 +5,17 @@ export type NavigationMenuContent = {
     tabButton: string;
 };
 
-const NavigationMenuSelectors = {
+const selectors = {
     body: '[class^="styles_header"] [class^="styles_navigation"] >> visible=true',
     tabButton:
         '[class^="styles_header"] [class^="styles_navigation"] >> visible=true a[class^="styles_button"]'
 };
 
 export class NavigationMenu extends BaseComponent {
-    public static body = NavigationMenuSelectors.body;
+    public static body = selectors.body;
+    public selectors = selectors;
 
     public tabButton = new Link({
-        locator: this.locator.locator(NavigationMenuSelectors.tabButton)
+        locator: this.locator.locator(selectors.tabButton)
     });
 }

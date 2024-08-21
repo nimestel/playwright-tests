@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
-import { LOCALES } from '../../../utils/helpers/locales';
-import { test } from '../../../utils/fixtures/base-test';
-import routes from '../../../utils/helpers/routes';
+import { LOCALES } from '../../utils/helpers/locales';
+import { test } from '../../utils/fixtures/base-test';
+import routes from '../../utils/helpers/routes';
 
 let jsonLocale;
 

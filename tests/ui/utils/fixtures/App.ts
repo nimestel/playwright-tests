@@ -1,10 +1,10 @@
 import { Page } from '@playwright/test';
-import { MainPage } from '../../support/pages/ton/MainPage';
+import { AboutPage } from '../../support/pages/ton/AboutPage';
 import { ActivitiesPage } from '../../support/pages/ton/ActivitiesPage';
 import { ContributorsPage } from '../../support/pages/ton/ContributorsPage';
 
 export interface BaseTest {
-    mainPage: MainPage;
+    mainPage: AboutPage;
     activitiesPage: ActivitiesPage;
     contributorsPage: ContributorsPage;
 }
@@ -12,7 +12,7 @@ export interface BaseTest {
 export class App {
     constructor(public page: Page) {}
 
-    public mainPage = new MainPage(this.page);
+    public mainPage = new AboutPage(this.page);
     public activitiesPage = new ActivitiesPage(this.page);
     public contributorsPage = new ContributorsPage(this.page);
 

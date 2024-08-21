@@ -16,7 +16,7 @@ export type ActivityCardContent = {
 const ActivityCardSelectors = {
     body: '[class*=styles_card]',
     image: '[class*=styles_imgWrap]',
-    badge: '[class*=styles_badge]',
+    //badge: '[class*=styles_badge]',
     title: '[class*=styles_headline]',
     subtitle: '[class*=styles_regular]',
     additionalInfo: '[class*=styles_addInfo]',
@@ -29,9 +29,9 @@ export class ActivityCard extends BaseComponent {
     public static body = ActivityCardSelectors.body;
     public selectors = ActivityCardSelectors;
 
-    public badge = new ActivityCardBadge({
-        locator: this.locator.locator(ActivityCardSelectors.badge)
-    });
+    // public badge = new ActivityCardBadge({
+    //     locator: this.locator.locator(ActivityCardSelectors.badge)
+    // });
     public title = new Title({
         locator: this.locator.locator(ActivityCardSelectors.title)
     });
