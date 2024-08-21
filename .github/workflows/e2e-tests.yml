@@ -67,7 +67,7 @@ jobs:
           -e BASE_URL="${{ vars.APP_BASE_URL }}" \
           -v "$GITHUB_WORKSPACE/allure-results:/app/allure-results" \
           -v "$GITHUB_WORKSPACE/playwright-report-mobile:/app/playwright-report" \
-          pw-tests-image npm run test -- --project="Mobile Chrome" -- --project="Mobile Safari"
+          pw-tests-image npm run test -- --project="Mobile Chrome" --project="Mobile Safari"
         env:
           CI: true
 

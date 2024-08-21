@@ -12,7 +12,7 @@ const pages = [ContributorsPage, AboutPage, ActivitiesPage];
 test.describe(`Check pages and elements`, () => {
     pages.forEach((currentPage) => {
         test.describe(`Check page ${currentPage.name}`, () => {
-            test.only('check url and elements', async ({ page }, testInfo) => {
+            test('check url and elements', async ({ page }, testInfo) => {
                 thisPage = new currentPage(page);
 
                 await thisPage.goto();
