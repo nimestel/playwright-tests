@@ -36,19 +36,6 @@ jobs:
           path: playwright-report-desktop/
           retention-days: 3
 
-      - name: Send TG notification when test run fails
-        if: failure()
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_E2E_ALERTS_ID }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          format: markdown
-          message: |
-            **${{ github.ref_name || 'main' }}: desktop ton-society tests failed **
-            
-            See details and report in [job](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)
-            
-
   run-mobile-tests:
     runs-on: ubuntu-latest
     permissions:
@@ -79,14 +66,19 @@ jobs:
           path: playwright-report-mobile/
           retention-days: 3
 
+
+  notify-telegram:
+    runs-on: ubuntu-latest
+    needs: [ run-desktop-tests, run-mobile-tests ]
+    if: failure()
+    steps:
       - name: Send TG notification when test run fails
-        if: failure()
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_E2E_ALERTS_ID }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
           message: |
-            **${{ github.ref_name || 'main' }}: mobile ton-society tests failed **
-
+            **${{ github.ref_name || 'main' }}: ton-society tests failed **
+            
             See details and report in [job](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts)
