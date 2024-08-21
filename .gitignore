@@ -7,3 +7,8 @@
 /allure-report/
 .idea
 /node_modules/
+/tests/ui/node_modules/
+/tests/ui/allure-results/
+/tests/ui/playwright-report/
+/tests/ui/test-results/
+/tests/ui/allure-report/

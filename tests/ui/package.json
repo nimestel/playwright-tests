@@ -7,7 +7,7 @@
     "allure:generate": "npx allure generate ./allure-results --clean",
     "old_allure:generate": "npx allure generate ../../allure-results --clean",
     "allure:serve": "npx allure serve",
-    "test": "npx playwright test && npm run allure:generate",
+    "test": "npx playwright test",
     "debug": "npx playwright test --workers 6 --retries=1",
     "ui": "npx playwright test --workers 1 --retries=0 --ui"
   },
