@@ -9,7 +9,7 @@
 #COPY ../.. /app/
 #CMD ["npm", "test", "&&", "cp", "-r", "allure-results", "/app/allure-results"]
 
-FROM mcr.microsoft.com/playwright:v1.46.1-jammy
+FROM mcr.microsoft.com/playwright:v1.40.0-jammy
 
 WORKDIR /app
 COPY tests/ui/package.json tests/ui/package-lock.json /app/

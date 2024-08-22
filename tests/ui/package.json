@@ -14,7 +14,7 @@
   "author": "nimestel",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.46.1",
+    "@playwright/test": "^1.40.1",
     "@types/node": "^20.10.5",
     "allure-commandline": "^2.25.0",
     "prettier": "^3.1.1"
