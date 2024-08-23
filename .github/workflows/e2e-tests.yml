@@ -8,6 +8,7 @@ on:
 jobs:
   run-desktop-tests:
     runs-on: ubuntu-latest
+    environment: main
     permissions:
       contents: write
 
@@ -41,6 +42,7 @@ jobs:
 
   run-mobile-tests:
     runs-on: ubuntu-latest
+    environment: main
     permissions:
       contents: write
 
@@ -72,6 +74,7 @@ jobs:
 
   notify-telegram:
     runs-on: ubuntu-latest
+    environment: main
     needs: [ run-desktop-tests, run-mobile-tests ]
     if: failure()
     steps:
