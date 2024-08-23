@@ -26,20 +26,13 @@ export default defineConfig({
         /* Base URL to use in actions like `await page.goto('/')`. */
         baseURL: process.env.BASE_URL,
 
-        /* Screens and video for a report */
-        screenshot: 'only-on-failure',
-        video: 'on-first-retry',
-
         /* Headless mode */
         headless: !process.env.CI,
 
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-        trace: 'on-first-retry',
-
-        launchOptions: {
-            devtools: !process.env.CI,
-            args: ['--use-gl=egl'] // enable hardware acceleration locally
-        }
+        screenshot: 'only-on-failure',
+        video: 'retain-on-failure',
+        trace: 'retain-on-failure'
     },
 
     /* Configure projects for major browsers */
