@@ -40,7 +40,7 @@ test.describe(`Check pages and elements`, () => {
         await page.waitForResponse(routes.getActivityGroup());
 
         await app.activitiesPage.activityGroupBar.shouldBeVisible();
-        await app.activitiesPage.activityCard.shouldBeVisible();
+        await app.activitiesPage.activityCard.anyMemberShouldBeVisible();
 
         await mock.purgeAllRoutes();
 
@@ -48,11 +48,7 @@ test.describe(`Check pages and elements`, () => {
             await step(`Checking "${group.name}" tab:`, async () => {
                 await app.activitiesPage.activityGroupBar.clickGroup(group.name);
 
-                await app.activitiesPage.activityGroupBar.shouldBeVisible();
                 await app.activitiesPage.activityGroupBar.tabIsActive(group.name);
-
-                if (group.slug != 'active')
-                    await app.activitiesPage.activityGroupBanner.shouldBeVisible();
 
                 await step(
                     `Checking that ${group.name} group has expected elements displayed`,

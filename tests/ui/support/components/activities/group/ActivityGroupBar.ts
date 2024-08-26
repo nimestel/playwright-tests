@@ -8,8 +8,8 @@ export type ActivityGroupBarContent = {
 };
 
 const ActivityGroupBarSelectors = {
-    body: '[class*=styles_tabs]',
-    button: '[class*=styles_tabs] a[class*=styles_button]'
+    body: '[class*=styles_tabsWrapper]',
+    button: 'a[class*=styles_button]'
 };
 
 export class ActivityGroupBar extends BaseComponent {
