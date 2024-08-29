@@ -167,6 +167,7 @@ export async function acceptCookiesIfExist(page: Page) {
                 return !areCookiesDisplayed;
             },
             {
+                timeout: 20_000,
                 message: `Trying to accept cookies`
             }
         )
