@@ -107,6 +107,42 @@ export async function waitForNoSkeletons(page: Page, timeout = 80_000) {
     );
 }
 
+// scroll page down until participants will be displayed
+export async function areParticipantsDisplayed(app) {
+    console.log('Checking that some participants are displayed on page');
+    await expect
+        .poll(
+            async () => {
+                const participants = await app.activitiesPage.activityCard.participants;
+                const count = await participants.count();
+
+                const areParticipantsDisplayed =
+                    count > 0 && (await participants.first().isVisible());
+
+                if (areParticipantsDisplayed) {
+                    console.log('Participants are displayed');
+                } else {
+                    try {
+                        console.log('Still no participants');
+
+                        await scrollPageDown(app.activitiesPage.page);
+                    } catch (e) {
+                        console.log('Participants are displayed?');
+
+                        await app.activitiesPage.activityCard.participants.anyMemberShouldBeVisible();
+                        await app.activitiesPage.activityCard.participantsAvatars.anyMemberShouldBeVisible();
+                    }
+                }
+                return areParticipantsDisplayed;
+            },
+            {
+                timeout: 20_000,
+                message: `Trying to scroll page to activity with participants`
+            }
+        )
+        .toBeTruthy();
+}
+
 export async function acceptCookiesIfExist(page: Page) {
     console.log('Checking that no cookies modal on page');
     await expect

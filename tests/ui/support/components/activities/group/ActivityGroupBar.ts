@@ -1,7 +1,5 @@
-import { BaseComponent } from '../../BaseComponent';
 import { Button } from '../../common-components/button/Button';
-import { step } from '../../../../utils/fixtures/base-test';
-import { expect } from '@playwright/test';
+import { Tabs } from '../../Tabs';
 
 export type ActivityGroupBarContent = {
     button: string;
@@ -12,27 +10,16 @@ const ActivityGroupBarSelectors = {
     button: 'a[class*=styles_button]'
 };
 
-export class ActivityGroupBar extends BaseComponent {
-    public static body = ActivityGroupBarSelectors.body;
-    public selectors = ActivityGroupBarSelectors;
+const selectors = {
+    body: '[class*=styles_tabs]',
+    tab: 'a[class*=styles_button]'
+};
 
-    public button = new Button({
-        locator: this.locator.locator(ActivityGroupBarSelectors.button)
+export class ActivityGroupBar extends Tabs {
+    public static body = selectors.body;
+    public selectors = selectors;
+
+    public tab = new Button({
+        locator: this.locator.locator(selectors.tab)
     });
-
-    public async clickGroup(tabName: string) {
-        await step(`Click ${tabName} tab`, async () => {
-            await this.locator.locator(`//a[.="${tabName}"]`).click();
-        });
-    }
-
-    public async tabIsActive(tabName: string) {
-        await step(`Checking that ${tabName} tab is active`, async () => {
-            await expect(
-                this.locator.locator(
-                    `//a[.="${tabName}"][contains(@class, "styles_active")]`
-                )
-            ).toBeVisible();
-        });
-    }
 }
